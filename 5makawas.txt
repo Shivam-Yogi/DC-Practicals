@@ -1,0 +1,76 @@
+import time
+processes = {
+"P1" : [["P1","P2","P4"],[False]],
+"P2" : [["P2","P1","P3"],[False]],
+"P3" : [["P3","P1","P4"],[False]],
+"P4" : [["P4","P3","P2"],[False]],
+}
+process = ["P1","P2","P3","P4"]
+CS = []
+# P1 want to execute
+Queue = []
+def request(process,group):
+print(f"{process} is requesting...")
+if len(CS)==0:
+if processes[f"{group[0]}"][1][0] == False:
+if processes[f"{group[1]}"][1][0] == False:
+if processes[f"{process}"][1][0]== False:
+response(process,group)
+
+else:
+print("Process is busy!!")
+else:
+print(f"Critical Section is Not empty...{CS[0]} is in Critical Section")
+print("\n")
+Queue.append(process)
+def release(process,group):
+processes[f"{process}"][1][0] = False
+processes[f"{group[0]}"][1][0] = False
+processes[f"{group[1]}"][1][0] = False
+CS.pop()
+print(f"{process} is releasd from critical Section....")
+print("\n")
+print("Checking Queue...")
+print(f"Queue : {Queue}")
+if len(Queue)!=0:
+request(Queue[0],processes[f"{Queue[0]}"][0][1:])
+Queue.pop(0)
+else:
+print("Queue is empty..")
+def response(process,group):
+processes[f"{process}"][1][0] = True
+processes[f"{group[0]}"][1][0] = True
+processes[f"{group[1]}"][1][0] = True
+CS.append(process)
+print(f"{process} is in critical section..")
+print(f"Critical Section : {CS}")
+print("\n")
+
+// 12/1/22, 11:09 PM makawas (1).ipynb - Colaboratory
+
+// https://colab.research.google.com/drive/1yMT0RLyfmLsGzymJ7oL8SMD2M4pjLHAQ#scrollTo=cccbe65f&printMode=true 2/3
+pr1 = process[0]
+pr2 = process[1]
+
+gr1 = processes[f"{pr1}"][0][1:]
+gr2 = processes[f"{pr2}"][0][1:]
+gr3 = processes[f"{pr3}"][0][1:]
+gr4 = processes[f"{pr4}"][0][1:]
+request(pr1,gr1)
+time.sleep(2.4)
+request(pr2,gr2)
+time.sleep(2.4)
+request(pr3,gr3)
+time.sleep(2.4)
+request(pr4,gr4)
+time.sleep(2.4)
+release(pr1,gr1)
+time.sleep(2.4)
+release(pr2,gr2)
+time.sleep(2.4)
+release(pr3,gr3)
+time.sleep(2.4)
+pr3 = process[2]
+pr4 = process[3]
+
+release(pr4,gr4)

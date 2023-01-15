@@ -1,0 +1,34 @@
+//Echoserver
+import java.net.*;
+import java.io.*;
+
+public class EchoSer
+{
+    public static void main (String [] args) throws IOException
+     {
+         ServerSocket ss  = new ServerSocket(6000);
+     }
+
+        System.out.println("Echo server created at port no. 6000");
+        Socket s = ss.accept();
+        PrintStream ps = new PrintStream(s.getOutputStream());
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream()));
+
+        while (true)
+        {
+            String str, str1;
+            while ((str = br.readLine()) != null)
+            {
+                System.out.println(str);
+                ps.println(str);
+            }
+
+            ps.close();
+            br.close();
+            ss.close();
+            s.close();
+            System.exit(0);
+        }
+    }
+}

@@ -1,0 +1,51 @@
+//Server Program
+import java.net.*;
+import java.io.*;
+import java.util.Date;
+public class server_DT
+{
+public static void main(String[] args)throws IOException
+{
+//Step 1. Reserve a port number on the Server to offer this service
+ServerSocket ss= new ServerSocket(5000);
+//(Optional)To confirm Server Reserved specified port or not
+System.out.println(&quot;The Server has reserved port No.: &quot;+ss.getLocalPort()+&quot; for this
+Service&quot;);
+//Step 2. Now create a Client Socket on Server for Bidirectonal Communication
+//Socket is created only when client communicates with the server
+Socket cs=ss.accept();
+//To confirm Server communicated through the socket or not
+System.out.println(&quot;Client with IP Address &quot;+cs.getInetAddress()+&quot; has communicated via
+port No.: &quot;+cs.getPort());
+Date d=new Date();
+String s=&quot;Current Date &amp; Time on Server is:&quot;+d;
+//Send String s to client via client socket
+PrintWriter toclient=new PrintWriter(cs.getOutputStream(),true);
+toclient.print(s);
+
+toclient.close();
+cs.close();
+ss.close();
+}
+}
+
+//Client Program
+import java.net.*;
+import java.io.*;
+public class client_DT
+{
+public static void main(String[] args) throws UnknownHostException,IOException
+{
+//Step 1. Create a client socket to connect to Server
+Socket cs=new Socket(&quot;LocalHost&quot;,5000);
+//To confirm Client is communicating through the port
+System.out.println(&quot;Client &quot;+cs.getInetAddress()+&quot; is communicating from port No.:
+&quot;+cs.getPort());
+//Receive Date Sent by Server
+BufferedReader fromserver=new BufferedReader(new
+InputStreamReader(cs.getInputStream()));
+System.out.println(fromserver.readLine());
+fromserver.close();
+cs.close();
+}
+}

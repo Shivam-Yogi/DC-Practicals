@@ -1,0 +1,33 @@
+import java.io.*; 
+import java.net.*;
+
+public class EchoCli
+{
+public static void main(String[] args) throws UnknownHostException, IOException
+{
+Socket s = new Socket ("localhost", 8000); 
+
+System.out.println("Connected to server.");
+
+DataOutputStream dos = new DataOutputStream(s.getOutputStream()); 
+BufferedReader br = new BufferedReader (new InputStreamReader(s.getInputStream())); 
+BufferedReader kb = new BufferedReader(new InputStreamReader(System.in));
+
+String str, str1;
+
+while (!(str = kb.readLine()).equals("exit"))
+{
+	dos.writeBytes(str + "\n"); 
+	System.out.println("Sending : " + str); 
+	str1 = br.readLine(); 
+	System.out.println("Receving : " + str1);
+}
+
+System.exit(0); 
+dos.close();
+br.close();
+kb.close();
+s.close();
+}
+}
+ 
